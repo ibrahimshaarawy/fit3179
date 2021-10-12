@@ -1,0 +1,58 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "white",
+    "padding": 5,
+    "width": 800,
+    "height": 600,
+    "title": "Ibrahim Shaarawy Homework Week 11",
+    "data": {
+      "url": "https://raw.githubusercontent.com/ibrahimshaarawy/vegalite/main/africa_inflation_data.csv",
+      "format": {"type":"csv"}
+    },
+    "params": [{
+      "name": "Population_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 90000000,
+        "step": 1000000,
+        "name": "Minimum Population: "
+      }
+    }],
+    "transform": [{"filter": "datum.Inflation > 0"}, {"filter": "datum.Inflation <  25"}, {"filter": "datum.population < 90000000"}, {"filter": "datum.population > Population_Above"}],
+    "encoding": {
+    "x": {
+      "field": "population",
+      "type": "quantitative",
+      "title": "Population",
+      "axis": {"tickCount": 10}
+  },
+  "y": {
+      "field": "Inflation",
+      "type": "quantitative",
+      "axis": {"tickCount": 10}
+  } },
+    
+    "layer": [  {"mark": "circle","encoding": {
+      "x": {"field": "population", "type": "quantitative", "title": "Population", "axis": {"tickCount": 10}},
+      "y": {"field": "Inflation", "type": "quantitative", "title": "2020 Inflation",  "axis": {"tickCount": 10}},
+      "color": {"field": "country", "type": "nominal", "title": "Country Name"},
+      "size": {"field": "population", "type": "quantitative", "scale": {"type": "threshold", "domain": [10000, 100000, 1000000, 10000000, 100000000], "range": [10, 50, 150, 200, 300, 400]}, "legend": {"format": ".1s"} },
+  "tooltip": [
+  {"field": "country", "type": "nominal"},
+  {"field": "population", "type": "quantitative", "format": ","}
+  ]
+  }},
+  {"mark":{"type": "text", "align":"right", "baseline": "middle", "dx": -12, "fontSize": 11.5, "fontStyle": "italic"}, "encoding": {"text": {"field": "country", "type": "nominal"}, "color": {"value": "black"}, "opacity": {
+            "condition": {
+              "test": "datum['country'] == 'Egypt' || datum['country'] == 'Algeria' || datum['country'] == 'Seychelles'", "value": 1 },
+              "value": 0 
+              },
+              "tooltip": [
+  {"field": "country", "type": "nominal"},
+  {"field": "population", "type": "quantitative", "format": ","}]
+              }
+  }
+    ]
+  }
